@@ -16,19 +16,44 @@ This project presents a Human Activity Recognition (HAR) system developed using 
 
 The study focuses on classifying human activities using accelerometer and gyroscope measurements collected from wearable devices. Multiple machine learning models and dimensionality reduction techniques were evaluated to investigate classification performance, computational efficiency, and feature-space optimization.
 
-The project was developed as part of academic coursework in machine learning and data science.
+The project includes:
+- Exploratory Data Analysis (EDA)
+- PCA-based dimensionality reduction
+- Feature importance analysis
+- Activity cluster visualization
+- Comparative machine learning experiments
 
 ---
 
-# Objectives
+# Research Questions
 
-The main objectives of this project were:
+## RQ1 — PCA Dimensionality Reduction
 
-- Build an activity recognition pipeline using sensor data
-- Compare multiple machine learning classifiers
-- Investigate the impact of dimensionality reduction using PCA
-- Evaluate classification accuracy across activities
-- Analyse computational efficiency and model performance
+Can reduced-dimensional feature spaces maintain classification performance compared to the full 561-feature dataset?
+
+The project evaluates:
+- PCA-99%
+- PCA-95%
+- PCA-90%
+- PCA-80%
+
+against the original feature space.
+
+---
+
+## RQ2 — Feature Importance
+
+Which sensor-derived features contribute most strongly to activity classification?
+
+Mutual Information analysis was used to rank features according to predictive importance.
+
+---
+
+## RQ3 — Activity Cluster Separability
+
+How well do activity classes separate in lower-dimensional space?
+
+PCA and t-SNE visualizations were used to investigate cluster structure and activity overlap.
 
 ---
 
@@ -56,22 +81,117 @@ The project uses the **UCI Human Activity Recognition Dataset**, which contains 
 | Pandas | Data Processing |
 | Scikit-learn | Machine Learning |
 | Matplotlib | Visualization |
-| Seaborn | Data Visualization |
+| Seaborn | Statistical Visualization |
 | Jupyter Notebook | Experimentation |
 
 ---
 
 # Machine Learning Pipeline
 
-The project follows the workflow below:
+The workflow follows the pipeline below:
 
 1. Data Loading
-2. Data Cleaning
+2. Exploratory Data Analysis
 3. Feature Scaling
 4. Dimensionality Reduction (PCA)
-5. Model Training
-6. Model Evaluation
-7. Performance Comparison
+5. Feature Importance Analysis
+6. Model Training
+7. Performance Evaluation
+8. Visualization & Interpretation
+
+---
+
+# Exploratory Data Analysis
+
+## Activity Distribution
+
+The dataset maintains relatively balanced activity distributions across training and testing sets.
+
+![Class Distribution](images/eda_class_distribution.png)
+
+---
+
+## Activity Samples per Subject
+
+Subject-wise activity distributions were analysed to investigate participant-level variation.
+
+![Subject Distribution](images/eda_subject_distribution.png)
+
+---
+
+## Feature Distributions
+
+Sensor feature distributions reveal clear differences between static and dynamic activities.
+
+![Feature Distributions](images/eda_feature_distributions.png)
+
+---
+
+# Correlation Analysis
+
+A correlation heatmap was generated to investigate relationships among high-variance sensor features.
+
+Strong correlations were observed among several accelerometer and gyroscope measurements.
+
+![Correlation Heatmap](images/eda_correlation_heatmap.png)
+
+---
+
+# Dimensionality Reduction using PCA
+
+Principal Component Analysis (PCA) was applied to reduce feature dimensionality while preserving explained variance.
+
+## PCA Explained Variance
+
+The cumulative explained variance curve demonstrates how dimensionality reduction impacts retained information.
+
+![PCA Variance](images/pca_variance_curve.png)
+
+---
+
+## PCA Performance Evaluation
+
+Classification performance was evaluated across different PCA thresholds.
+
+![PCA Performance](images/rq1_pca_performance.png)
+
+### Key Observation
+
+- PCA-95% and PCA-99% retained near-full classification performance.
+- PCA-80% introduced noticeable performance degradation.
+- Logistic Regression showed stronger robustness under dimensionality reduction compared to Random Forest.
+
+---
+
+# Feature Importance Analysis
+
+Mutual Information was used to identify the most informative sensor-derived features for activity recognition.
+
+![Feature Importance](images/feature_importance_mi.png)
+
+### Key Observation
+
+Important features were primarily derived from:
+- Body acceleration
+- Gravity acceleration
+- Gyroscope energy measurements
+- Jerk signals
+
+---
+
+# Activity Cluster Visualization
+
+## PCA vs t-SNE
+
+2D visualizations were generated to analyse activity cluster separability.
+
+![Cluster Visualization](images/eda_tsne_pca_2d.png)
+
+### Key Observation
+
+- t-SNE produced clearer class separation compared to PCA.
+- Dynamic activities formed more distinct clusters.
+- Static activities exhibited partial overlap in lower-dimensional space.
 
 ---
 
@@ -84,17 +204,6 @@ The following machine learning models were implemented and compared:
 | Random Forest | Ensemble-based classification |
 | Extra Trees Classifier | Randomized tree ensemble |
 | Ridge Classifier | Linear classification baseline |
-
----
-
-# Dimensionality Reduction
-
-Principal Component Analysis (PCA) was applied to reduce feature dimensionality and investigate how lower-dimensional representations affect classification performance.
-
-The study evaluates:
-- Classification accuracy
-- Computational efficiency
-- Feature compression effectiveness
 
 ---
 
@@ -112,10 +221,11 @@ Models were evaluated using:
 
 # Key Findings
 
-- Ensemble-based models achieved strong classification performance across activities.
-- PCA reduced feature dimensionality while maintaining competitive accuracy.
-- Random Forest and Extra Trees demonstrated robust performance on sensor-based activity classification tasks.
-- Dimensionality reduction improved computational efficiency without significant performance degradation.
+- Ensemble-based models achieved strong classification performance.
+- PCA significantly reduced dimensionality while preserving predictive performance.
+- Mutual Information successfully identified highly discriminative sensor features.
+- t-SNE visualizations revealed strong activity cluster separation.
+- Random Forest and Extra Trees consistently demonstrated robust classification capability.
 
 ---
 
@@ -135,6 +245,16 @@ human-activity-recognition-system/
 │
 ├── presentation/
 │   └── HAR_Presentation.pdf
+│
+├── images/
+│   ├── rq1_pca_performance.png
+│   ├── feature_importance_mi.png
+│   ├── pca_variance_curve.png
+│   ├── eda_subject_distribution.png
+│   ├── eda_tsne_pca_2d.png
+│   ├── eda_correlation_heatmap.png
+│   ├── eda_feature_distributions.png
+│   └── eda_class_distribution.png
 ```
 
 ---
@@ -200,13 +320,14 @@ Potential future enhancements include:
 
 # Academic Context
 
-This project was developed for academic coursework focused on machine learning and activity recognition using wearable sensor data.
+This project was developed as part of academic coursework focused on machine learning and sensor-based activity recognition.
 
 The work includes:
-- model experimentation
-- dimensionality reduction analysis
-- comparative classifier evaluation
-- performance visualization
+- feature engineering
+- dimensionality reduction
+- classifier evaluation
+- exploratory analysis
+- visualization-based interpretation
 
 ---
 
